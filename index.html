@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machines We Imagine</title>
+<meta name="description" content="Machines We Imagine is an official UAL Group that supports research led by artists who build computational systems while making art.">
+
+<!-- Fonts: Space Grotesk (headings) + DM Sans (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap">
+
+<!-- All page styling lives in style.css -->
+<link rel="stylesheet" href="style.css">
+
+<!-- p5.js + the background sketch (sketch.js draws into the #bg layer) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<script src="sketch.js" defer></script>
+<script src="menu.js" defer></script>
+</head>
+<body>
+
+<!-- Fixed layer behind everything; the p5 canvas is created inside it -->
+<div id="bg"></div>
+
+<div class="page">
+
+  <!-- ============ sticky header ============ -->
+  <header class="site-header">
+    <a href="#top">
+      <img class="wordmark" src="assets/mwi-wordmark.png" alt="Machines We Imagine">
+    </a>
+    <button id="menu-button" type="button" class="menu-button label" aria-label="Menu">
+      <span id="menu-label">Menu</span>
+      <span class="lines"><span></span><span></span><span></span></span>
+    </button>
+  </header>
+
+  <!-- ============ full-screen menu (hidden until opened) ============ -->
+  <nav id="nav-overlay" class="nav-overlay" aria-label="Site sections">
+    <div class="top-row">
+      <span class="label" style="opacity: 0.7;">Index</span>
+      <button id="close-button" type="button" class="close-button label">Close</button>
+    </div>
+    <ol>
+      <li><a href="#who"><span class="num">01</span><span>Who we are</span></a></li>
+      <li><a href="#remit"><span class="num">02</span><span>Remit</span></a></li>
+      <li><a href="#activities"><span class="num">03</span><span>Activities</span></a></li>
+      <li><a href="#funding"><span class="num">04</span><span>Funding</span></a></li>
+      <li><a href="#work"><span class="num">05</span><span>Current work</span></a></li>
+      <li><a href="#research"><span class="num">06</span><span>Research</span></a></li>
+      <li><a href="#past"><span class="num">07</span><span>Past work</span></a></li>
+      <li><a href="#contact"><span class="num">08</span><span>Contact</span></a></li>
+    </ol>
+  </nav>
+
+  <main id="top">
+
+    <!-- ============ hero ============ -->
+    <section class="hero">
+      <img class="logo" src="assets/mwi-logo.png" alt="Machines We Imagine">
+      <h1>Artists who build the machines they think with.</h1>
+      <div class="intro">
+        <p>Machines We Imagine is an official UAL Group that supports research led by artists who build computational systems while making art. We also study how those tools, in turn, can change creative practice, culture, and society.</p>
+        <p>We hold that the creation of software, circuit board, an interface, a model, or a dataset entails arguments, ideas, and proposals. It is at this intersection that we explore. When code is treated as a material, it can shape the cognition of the artist who develops the technology, the people who encounter the art, use the software, or extend it in their own practices or companies. Where the dominant model of tech equates scale with success, Machines We Imagine holds that a more interpretive, reflective, and subtle process is at play. Artists are proposing possible future directions.</p>
+      </div>
+    </section>
+
+    <!-- ============ 01 who we are ============ -->
+    <section id="who" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Who we are</span>
+        <span class="label num">01</span>
+      </div>
+      <div class="leads">
+        <article class="card">
+          <span class="label" style="color: var(--mauve);">Group lead</span>
+          <h2>Dr Phoenix Perry</h2>
+          <p class="role">Reader, UAL Creative Computing Institute</p>
+          <p class="bio">Phoenix makes embodied games, installations, and the tools behind them, working across human-computer interaction, interactive machine learning, and play. Founder of the Code Liberation Foundation and a co-creator of InteractML, they lead Held in Common and the group's work on The Antigravity Machine.</p>
+          <a class="site-link" href="https://phoenixperry.com" target="_blank" rel="noopener">phoenixperry.com</a>
+        </article>
+        <article class="card">
+          <span class="label" style="color: var(--mauve);">Group lead</span>
+          <h2>Dr Matthew Plummer-Fernández</h2>
+          <p class="role">Course Leader, BA Fine Art: Computational Arts, Camberwell College of Arts</p>
+          <p class="bio">A British/Colombian artist working across algorithmic systems, popular culture, and contemporary issues, in the traditions of generative art, critical design, and internet art. His works are held in the permanent collection of Centre Pompidou and received an Award of Distinction at Ars Electronica.</p>
+          <a class="site-link" href="https://www.plummerfernandez.com" target="_blank" rel="noopener">plummerfernandez.com</a>
+        </article>
+      </div>
+      <div class="join-band">
+        <p>We are a growing group of UAL artists and researchers who build. Join us.</p>
+        <a class="button-outline label" href="mailto:phoenix@machinesweimagine.com?subject=Joining%20Machines%20We%20Imagine">Join us</a>
+      </div>
+    </section>
+
+    <!-- ============ 02 remit ============ -->
+    <section id="remit" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Remit: Three commitments</span>
+        <span class="label num">02</span>
+      </div>
+      <div class="remit-list">
+        <article class="card">
+          <h2>The creation of software by artists warrants more research and support.</h2>
+          <p>Machines We Imagine (MWI) works on the instruments of computational creative practices: model architectures, interfaces, datasets, controllers, and the governance frameworks that decide how each may be used.</p>
+          <p class="quiet">We study what a tool encodes about creative work, how it shapes the experience of the person using it, and how a tool built for exploration differs from one built for resolution in its outputs. We prioritize this as artist-led research.</p>
+        </article>
+        <article class="card">
+          <h2>We are artists who build tools.</h2>
+          <p>Artists build tools as part of the art-making process, deliberately, and sometimes to make something easier for the next artist to come along. This can lead to thousands or millions of people learning something new, discovering a new possible form of expression, or nothing at all, except a single work of art. MWI gives that work a research home, technical infrastructure, and a route to funding.</p>
+        </article>
+        <article class="card">
+          <h2>Creative practice tool-building as the method.</h2>
+          <p>Tools are developed through practice, tested with the practitioners who will use them, and assessed by their impact on work rather than by output-centric metrics alone. The studio's methods include autoethnography, participatory co-design, and relational, interpretive evaluation frameworks that explode and explore process.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 03 activities ============ -->
+    <section id="activities" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Future key activities</span>
+        <span class="label num">03</span>
+      </div>
+      <div class="activities">
+        <div>
+          <span class="roman">i</span>
+          <h3>Tool development</h3>
+          <p>The studio designs and releases creative tools as concrete artifacts: prototype systems, open-source repositories, and documentation that enables independent practitioners to adopt them.</p>
+        </div>
+        <div>
+          <span class="roman">ii</span>
+          <h3>Grant mentoring</h3>
+          <p>&ldquo;How do I fund this?&rdquo; is often one of the questions artists ask themselves. As artists who have worked out how to fund, publish, and share their work, we aspire to make it easier for early-career researchers to do the same.</p>
+        </div>
+        <div>
+          <span class="roman">iii</span>
+          <h3>Practice-led research and publication</h3>
+          <p>Each tool is paired with a research output. The studio produces position papers, technical systems papers, and evaluation frameworks for venues across HCI, digital humanities, and creative AI, so that the knowledge generated by building a tool returns to the field and to the practitioners who informed it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 funding ============ -->
+    <section id="funding" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Funding small prototypes</span>
+        <span class="label num">04</span>
+      </div>
+      <div class="panel funding-panel">
+        <h2>Seed funding for prototypes that grow into grants.</h2>
+        <div class="body">
+          <p>We get a small amount of budget each year from UAL. We want to support the creation of prototypes and research that will generate grant funding and drive public engagement and knowledge exchange at UAL more broadly. If you're at UAL and want to join us, get in touch!&nbsp;</p>
+          <a class="button-outline label" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 current work ============ -->
+    <section id="work" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Current work</span>
+        <span class="label num">05</span>
+      </div>
+      <article class="card two-col">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <span class="label" style="color: var(--mauve);">In early development</span>
+          <h2>The Antigravity Machine</h2>
+        </div>
+        <p class="body-text">A real-time, code-free interface for training models through gesture and movement, and navigation tools that make the structure of a model's latent space legible and steerable rather than opaque. This project is in early development.</p>
+      </article>
+    </section>
+
+    <!-- ============ 06 research ============ -->
+    <section id="research" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Running funded research projects from our members</span>
+        <span class="label num">06</span>
+      </div>
+      <article class="two-col">
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <h2>Held in Common</h2>
+          <dl class="project-meta">
+            <dt>Research lead</dt><dd>Phoenix Perry</dd>
+            <dt>Site</dt><dd><a href="https://heldincommon.org" target="_blank" rel="noopener">heldincommon.org</a></dd>
+            <dt>Funder</dt><dd>UKRI AHRC Braid</dd>
+          </dl>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <h3 class="research-subtitle">A Federated Data Commons and Governance Framework.</h3>
+          <p class="research-body">This UKRI AHRC Braid-funded research is developing a federated, community-governed approach to creative data, allowing practitioners to curate, control, and share the datasets that train their tools under conditions they define.</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ 07 past work ============ -->
+    <section id="past" class="section">
+      <div class="section-head">
+        <span class="label eyebrow">Past work</span>
+        <span class="label num">07</span>
+      </div>
+      <p class="past-story">The story of how this came about is that it grew out of and is the next evolution of the Critical Computing and Creative Practices Group. After a year of CCCPG, we found ourselves more organically drawn to building things and making art than reflecting on the field of computing as a whole. We really should have seen this coming&hellip;</p>
+    </section>
+
+    <!-- ============ 08 contact ============ -->
+    <section id="contact" class="section" style="padding-bottom: clamp(60px, 12vh, 140px);">
+      <div class="section-head">
+        <span class="label eyebrow">Contact</span>
+        <span class="label num">08</span>
+      </div>
+      <div class="contact-row">
+        <h2>If you are building a tool as part of your creative practice and want to get in touch, we want to hear from you.&nbsp;</h2>
+        <div class="body">
+          <p>An official UAL Group.</p>
+          <a class="button-solid label" href="mailto:phoenix@machinesweimagine.com">Email us</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer label">
+    <span>Machines We Imagine</span>
+    <span>University of the Arts London</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

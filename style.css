@@ -1,0 +1,356 @@
+/* ============================================================
+   Machines We Imagine — stylesheet
+   ------------------------------------------------------------
+   Everything visual lives here. The palette is defined once as
+   CSS variables below — change a hex there and it updates
+   everywhere. Sizes use clamp(min, preferred, max) so the page
+   scales smoothly between phone and desktop.
+   ============================================================ */
+
+:root {
+  --pink:   #F2CED1;  /* page background */
+  --ink:    #30348C;  /* main indigo — text, buttons, lines */
+  --indigo: #44428C;  /* slightly lighter indigo, secondary body copy */
+  --violet: #5C548C;  /* muted violet, quieter text */
+  --mauve:  #9885A6;  /* lightest — section numbers, small labels */
+  --line:   rgba(48, 52, 140, 0.22);  /* hairline rules */
+  --card-line: rgba(48, 52, 140, 0.35); /* card outlines */
+  --card-bg: rgba(242, 206, 209, 0.72); /* cards: pink at 72% so the sketch shows through */
+  --gutter: clamp(20px, 4vw, 48px);     /* left/right page margin */
+}
+
+/* ---- base ---- */
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--pink);
+  color: var(--ink);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+p { text-wrap: pretty; }
+
+a { color: var(--ink); text-decoration: none; border-bottom: 1px solid rgba(48,52,140,0.4); }
+a:hover { opacity: 0.55; }
+
+/* The p5 canvas sits in this fixed, full-screen layer behind everything.
+   sketch.js puts the canvas here. pointer-events:none lets clicks pass through. */
+#bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* All page content sits above the sketch */
+.page { position: relative; z-index: 1; min-height: 100vh; }
+
+/* ---- reusable bits ---- */
+
+/* Small tracked-uppercase label (eyebrows, buttons, footer) */
+.label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Every section: centered column, hairline on top, breathing room */
+.section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(48px, 9vh, 110px) 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 80px; /* so anchor jumps clear the sticky header */
+}
+
+/* The "EYEBROW ..... 01" row at the top of each section */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(32px, 6vh, 64px);
+}
+.section-head .eyebrow { color: var(--violet); }
+.section-head .num { font-family: 'Space Grotesk', sans-serif; color: var(--mauve); }
+
+/* Outlined card on translucent pink */
+.card {
+  box-shadow: inset 0 0 0 1px var(--card-line); /* 1px outline, square corners */
+  background: var(--card-bg);
+  padding: clamp(24px, 3.4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Solid indigo panel (funding, join-us band) */
+.panel {
+  background: var(--ink);
+  color: var(--pink);
+  padding: clamp(28px, 4vw, 56px);
+}
+
+/* Outlined button on indigo panels */
+.button-outline {
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--pink);
+  color: var(--pink);
+  padding: 13px 22px;
+  align-self: start;
+  white-space: nowrap;
+}
+.button-outline:hover { opacity: 0.55; }
+
+/* Solid indigo button on pink */
+.button-solid {
+  border: 0;
+  background: var(--ink);
+  color: var(--pink);
+  padding: 14px 24px;
+}
+.button-solid:hover { opacity: 0.78; }
+
+/* Display headings — Space Grotesk, tight */
+h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; margin: 0; }
+
+/* ---- header ---- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px var(--gutter);
+  background: rgba(242, 206, 209, 0.86);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .wordmark { height: 18px; width: auto; display: block; }
+.site-header a { border: 0; }
+
+.menu-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--ink);
+  padding: 9px 14px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+}
+.menu-button:hover { opacity: 0.6; }
+.menu-button .lines { display: flex; flex-direction: column; gap: 4px; width: 16px; }
+.menu-button .lines span { height: 1px; background: currentColor; display: block; }
+
+/* ---- full-screen nav overlay ---- */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--ink);
+  color: var(--pink);
+  display: none; /* menu.js switches this to flex when open */
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(24px, 6vw, 96px);
+  animation: rise 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-overlay.open { display: flex; }
+
+.nav-overlay .top-row {
+  position: absolute;
+  top: 18px;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.nav-overlay .close-button {
+  background: transparent;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--pink);
+  color: var(--pink);
+  padding: 9px 14px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.nav-overlay .close-button:hover { opacity: 0.6; }
+
+.nav-overlay ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.nav-overlay li { border-top: 1px solid rgba(242, 206, 209, 0.28); }
+.nav-overlay li a {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 3vw, 40px);
+  padding: clamp(10px, 1.6vw, 18px) 0;
+  border: 0;
+  color: var(--pink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(28px, 5vw, 56px);
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.nav-overlay li a:hover { opacity: 0.55; }
+.nav-overlay li .num { font-family: 'DM Sans', sans-serif; font-size: 11px; letter-spacing: 0.18em; opacity: 0.6; min-width: 2.4em; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- hero ---- */
+.hero { max-width: 1180px; margin: 0 auto; padding: clamp(60px, 12vh, 150px) 0 clamp(60px, 10vh, 120px); }
+.hero .logo { width: clamp(180px, 30vw, 320px); height: auto; display: block; margin-bottom: clamp(32px, 6vh, 64px); }
+.hero h1 {
+  font-size: clamp(34px, 5.6vw, 78px);
+  line-height: 1.02;
+  letter-spacing: -1px;
+  max-width: 20ch;
+  margin-bottom: clamp(28px, 5vh, 48px);
+}
+.hero .intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 980px;
+}
+.hero .intro p { margin: 0; font-size: clamp(16px, 1.25vw, 19px); line-height: 1.62; }
+.hero .intro p + p { color: var(--violet); }
+
+main { padding: 0 var(--gutter); }
+
+/* ---- who we are ---- */
+.leads {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: clamp(20px, 3vw, 32px);
+  margin-bottom: clamp(32px, 6vh, 56px);
+}
+.leads .card { gap: 14px; }
+.leads h2 { font-size: clamp(24px, 2.6vw, 34px); line-height: 1.1; letter-spacing: -0.5px; }
+.leads .role { margin: 0; font-size: 15px; line-height: 1.55; color: var(--violet); }
+.leads .bio { margin: 0; font-size: 16px; line-height: 1.62; }
+.leads .site-link { align-self: start; font-size: 13px; }
+
+.join-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: var(--ink);
+  color: var(--pink);
+  padding: clamp(22px, 3vw, 40px);
+}
+.join-band p {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(19px, 2vw, 26px);
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+  max-width: 34ch;
+}
+
+/* ---- remit ---- */
+.remit-list { display: flex; flex-direction: column; gap: clamp(32px, 6vh, 64px); }
+.remit-list h2 { font-size: clamp(22px, 2.6vw, 36px); line-height: 1.12; letter-spacing: -0.5px; max-width: 26ch; }
+.remit-list p { margin: 0; font-size: 17px; line-height: 1.62; max-width: 72ch; }
+.remit-list p.quiet { color: var(--violet); }
+
+/* ---- activities: three cells separated by hairlines ---- */
+.activities {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1px;                 /* the 1px gaps show the line color below */
+  background: var(--line);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.activities > div {
+  background: rgba(242, 206, 209, 0.82);
+  padding: clamp(24px, 2.8vw, 38px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.activities .roman { font-family: 'Space Grotesk', sans-serif; font-size: 12px; letter-spacing: 0.14em; color: var(--mauve); }
+.activities h3 { font-size: 24px; letter-spacing: -0.3px; line-height: 1.15; }
+.activities p { margin: 0; font-size: 16px; line-height: 1.6; color: var(--indigo); }
+
+/* ---- funding panel ---- */
+.funding-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.funding-panel h2 { font-size: clamp(24px, 3vw, 42px); line-height: 1.1; letter-spacing: -0.6px; max-width: 22ch; }
+.funding-panel .body { display: flex; flex-direction: column; gap: 18px; }
+.funding-panel .body p { margin: 0; font-size: 17px; line-height: 1.62; }
+
+/* ---- current work / research ---- */
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.two-col h2 { font-size: clamp(26px, 3vw, 44px); line-height: 1.06; letter-spacing: -0.7px; }
+.two-col .body-text { margin: 0; font-size: 17px; line-height: 1.62; }
+
+.project-meta {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px 20px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.project-meta dt { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mauve); padding-top: 3px; }
+.project-meta dd { margin: 0; }
+
+.research-subtitle { font-size: clamp(19px, 1.8vw, 24px); line-height: 1.2; letter-spacing: -0.3px; }
+.research-body { margin: 0; font-size: 17px; line-height: 1.62; color: var(--indigo); }
+
+/* ---- past work: one big pull-quote-style paragraph ---- */
+.past-story {
+  margin: 0;
+  max-width: 62ch;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.32;
+  letter-spacing: -0.4px;
+}
+
+/* ---- contact ---- */
+.contact-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  align-items: end;
+}
+.contact-row h2 { font-size: clamp(26px, 3.4vw, 48px); line-height: 1.04; letter-spacing: -0.8px; max-width: 20ch; }
+.contact-row .body { display: flex; flex-direction: column; gap: 18px; align-items: start; }
+.contact-row .body p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--violet); }
+
+/* ---- footer ---- */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 26px var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--violet);
+}
