@@ -1,5 +1,5 @@
 /* ============================================================
-   Machines We Imagine — background sketch (p5.js, global mode)
+   Machines We Imagine: background sketch (p5.js, global mode)
    ------------------------------------------------------------
    A field of forms borrowed from the logo (triangles, bars,
    circles) drifts across the screen. Each form is continuously
@@ -105,7 +105,7 @@ function windowResized() {
 }
 
 function draw() {
-  clear(); // transparent canvas — the pink page shows through
+  clear(); // transparent canvas, so the pink page shows through
 
   scrollVelocity *= 0.9; // ease back to zero after scrolling stops
   fieldRotation += scrollVelocity * 0.00012;

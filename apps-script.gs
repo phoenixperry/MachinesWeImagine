@@ -1,5 +1,5 @@
 /* ============================================================
-   Google Apps Script — mailing list collector
+   Google Apps Script: mailing list collector
    ------------------------------------------------------------
    SETUP (once, ~3 minutes):
    1. Create a Google Sheet. Name the first sheet tab "Signups"
@@ -13,7 +13,7 @@
    4. Copy the Web app URL it gives you (ends in /exec) and paste
       it into SCRIPT_URL at the top of site/modal.js.
 
-   That's it — every signup appends a row to the Sheet.
+   That's it. Every signup appends a row to the Sheet.
    If you redeploy after edits, use "Manage deployments" and edit
    the existing one so the URL stays the same.
    ============================================================ */

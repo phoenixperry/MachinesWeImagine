@@ -38,14 +38,14 @@ joinForm.addEventListener('submit', async (e) => {
     const subject = encodeURIComponent('Mailing list signup');
     const body = encodeURIComponent(`Please add me to the Machines We Imagine mailing list.\n\nName: ${name}\nEmail: ${email}`);
     window.location.href = `mailto:phoenix@machinesweimagine.com?subject=${subject}&body=${body}`;
-    showDone('Thanks — your email app should have opened with the signup message ready to send.');
+    showDone('Thanks. Your email app should have opened with the signup message ready to send.');
     return;
   }
 
   submitButton.disabled = true;
   submitButton.textContent = 'Signing up…';
   try {
-    // mode:'no-cors' — Apps Script doesn't send CORS headers, so the
+    // mode:'no-cors' is needed because Apps Script sends no CORS headers, so the
     // browser can't read the response, but the row still gets written.
     await fetch(SCRIPT_URL, {
       method: 'POST',
@@ -53,9 +53,9 @@ joinForm.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ name, email }),
     });
-    showDone("Thanks — you're on the list.");
+    showDone("Thanks, you're on the list.");
   } catch (err) {
-    showDone('Something went wrong — please email us instead at phoenix@machinesweimagine.com.');
+    showDone('Something went wrong. Please email us instead at phoenix@machinesweimagine.com.');
   }
   submitButton.disabled = false;
   submitButton.textContent = 'Sign up';

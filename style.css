@@ -1,18 +1,18 @@
 /* ============================================================
-   Machines We Imagine — stylesheet
+   Machines We Imagine: stylesheet
    ------------------------------------------------------------
    Everything visual lives here. The palette is defined once as
-   CSS variables below — change a hex there and it updates
+   CSS variables below. Change a hex there and it updates
    everywhere. Sizes use clamp(min, preferred, max) so the page
    scales smoothly between phone and desktop.
    ============================================================ */
 
 :root {
   --pink:   #F2CED1;  /* page background */
-  --ink:    #30348C;  /* main indigo — text, buttons, lines */
+  --ink:    #30348C;  /* main indigo: text, buttons, lines */
   --indigo: #44428C;  /* slightly lighter indigo, secondary body copy */
   --violet: #5C548C;  /* muted violet, quieter text */
-  --mauve:  #9885A6;  /* lightest — section numbers, small labels */
+  --mauve:  #9885A6;  /* lightest: section numbers, small labels */
   --line:   rgba(48, 52, 140, 0.22);  /* hairline rules */
   --card-line: rgba(48, 52, 140, 0.35); /* card outlines */
   --card-bg: rgba(242, 206, 209, 0.72); /* cards: pink at 72% so the sketch shows through */
@@ -116,7 +116,7 @@ button.button-outline { background: transparent; cursor: pointer; font-family: '
 }
 .button-solid:hover { opacity: 0.78; }
 
-/* Display headings — Space Grotesk, tight */
+/* Display headings: Space Grotesk, tight */
 h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; margin: 0; }
 
 /* ---- header ---- */
