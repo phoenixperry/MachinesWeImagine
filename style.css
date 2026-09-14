@@ -104,6 +104,8 @@ a:hover { opacity: 0.55; }
   white-space: nowrap;
 }
 .button-outline:hover { opacity: 0.55; }
+/* when the outline button is a <button> (e.g. Join us), match the <a> look exactly */
+button.button-outline { background: transparent; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 11px; }
 
 /* Solid indigo button on pink */
 .button-solid {
@@ -228,10 +230,61 @@ h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 500; margin:
 
 main { padding: 0 var(--gutter); }
 
+/* ---- announcement band (autumn meetings) ---- */
+.announce {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(26px, 3.4vw, 44px);
+  background: var(--ink);
+  color: var(--pink);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(22px, 3vw, 48px);
+  align-items: start;
+}
+.announce-head { display: flex; flex-direction: column; gap: 12px; }
+.announce h2 {
+  font-size: clamp(24px, 2.8vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -0.6px;
+  max-width: 16ch;
+}
+.announce .label { color: rgba(242, 206, 209, 0.7) !important; }
+.announce-note { margin: 0; font-size: 16px; line-height: 1.6; max-width: 40ch; opacity: 0.8; }
+
+.meeting-list { list-style: none; margin: 0; padding: 0; }
+.meeting-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(242, 206, 209, 0.28);
+}
+.meeting-list li:last-child { border-bottom: 1px solid rgba(242, 206, 209, 0.28); }
+.meeting-list time {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(17px, 1.6vw, 21px);
+  letter-spacing: -0.3px;
+  margin-right: auto;
+}
+.meeting-when {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(17px, 1.6vw, 21px);
+}
+.meeting-room {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.72;
+  white-space: nowrap;
+}
+
 /* ---- who we are ---- */
 .leads {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
   gap: clamp(20px, 3vw, 32px);
   margin-bottom: clamp(32px, 6vh, 56px);
 }
@@ -321,17 +374,6 @@ main { padding: 0 var(--gutter); }
 .research-subtitle { font-size: clamp(19px, 1.8vw, 24px); line-height: 1.2; letter-spacing: -0.3px; }
 .research-body { margin: 0; font-size: 17px; line-height: 1.62; color: var(--indigo); }
 
-/* ---- past work: one big pull-quote-style paragraph ---- */
-.past-story {
-  margin: 0;
-  max-width: 62ch;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 500;
-  font-size: clamp(20px, 2.2vw, 30px);
-  line-height: 1.32;
-  letter-spacing: -0.4px;
-}
-
 /* ---- contact ---- */
 .contact-row {
   display: grid;
@@ -342,6 +384,57 @@ main { padding: 0 var(--gutter); }
 .contact-row h2 { font-size: clamp(26px, 3.4vw, 48px); line-height: 1.04; letter-spacing: -0.8px; max-width: 20ch; }
 .contact-row .body { display: flex; flex-direction: column; gap: 18px; align-items: start; }
 .contact-row .body p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--violet); }
+
+/* ---- join modal ---- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(48, 52, 140, 0.45); /* indigo scrim over the page */
+  display: none; /* modal.js switches this to flex when open */
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+}
+.modal-backdrop.open { display: flex; animation: rise 300ms cubic-bezier(0.16, 1, 0.3, 1); }
+
+.modal {
+  background: var(--pink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  padding: clamp(24px, 3.4vw, 44px);
+  width: min(480px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.modal h2 { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.12; letter-spacing: -0.4px; }
+.modal-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.modal-close {
+  background: transparent;
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--ink);
+  color: var(--ink);
+  padding: 7px 12px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.modal-close:hover { opacity: 0.6; }
+.modal-note { margin: 0; font-size: 15px; line-height: 1.6; color: var(--violet); }
+
+#join-form { display: flex; flex-direction: column; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field .label { color: var(--violet); }
+.field input {
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--card-line);
+  background: rgba(255, 255, 255, 0.5);
+  padding: 12px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--ink);
+}
+.field input:focus { outline: none; box-shadow: inset 0 0 0 1.5px var(--ink); }
+#join-form .button-solid { cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 4px; }
 
 /* ---- footer ---- */
 .site-footer {

@@ -17,6 +17,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 <script src="sketch.js" defer></script>
 <script src="menu.js" defer></script>
+<script src="modal.js" defer></script>
 </head>
 <body>
 
@@ -49,8 +50,7 @@
       <li><a href="#funding"><span class="num">04</span><span>Funding</span></a></li>
       <li><a href="#work"><span class="num">05</span><span>Current work</span></a></li>
       <li><a href="#research"><span class="num">06</span><span>Research</span></a></li>
-      <li><a href="#past"><span class="num">07</span><span>Past work</span></a></li>
-      <li><a href="#contact"><span class="num">08</span><span>Contact</span></a></li>
+      <li><a href="#contact"><span class="num">07</span><span>Contact</span></a></li>
     </ol>
   </nav>
 
@@ -66,6 +66,34 @@
       </div>
     </section>
 
+    <!-- ============ announcement: autumn meetings ============
+         Unnumbered band, sits between the hero and section 01 so it reads
+         first. Remove the whole <section> when the dates have passed. -->
+    <section class="announce" aria-labelledby="announce-title">
+      <div class="announce-head">
+        <span class="label" style="color: var(--mauve);">Announcement</span>
+        <h2 id="announce-title">Autumn meetings 2026</h2>
+        <p class="announce-note">Open to UAL staff and researchers &mdash; come along and see what the group is working on.</p>
+      </div>
+      <ol class="meeting-list">
+        <li>
+          <time datetime="2026-10-07T17:00">Wed 7 October 2026</time>
+          <span class="meeting-when">5pm</span>
+          <span class="meeting-room">Room PR_B501E</span>
+        </li>
+        <li>
+          <time datetime="2026-11-04T17:00">Wed 4 November 2026</time>
+          <span class="meeting-when">5pm</span>
+          <span class="meeting-room">Room PR_B501E</span>
+        </li>
+        <li>
+          <time datetime="2026-12-02T17:00">Wed 2 December 2026</time>
+          <span class="meeting-when">5pm</span>
+          <span class="meeting-room">Room PR_B501E</span>
+        </li>
+      </ol>
+    </section>
+
     <!-- ============ 01 who we are ============ -->
     <section id="who" class="section">
       <div class="section-head">
@@ -74,23 +102,37 @@
       </div>
       <div class="leads">
         <article class="card">
-          <span class="label" style="color: var(--mauve);">Group lead</span>
+          <span class="label" style="color: var(--mauve);">Research lead</span>
           <h2>Dr Phoenix Perry</h2>
           <p class="role">Reader, UAL Creative Computing Institute</p>
           <p class="bio">Phoenix makes embodied games, installations, and the tools behind them, working across human-computer interaction, interactive machine learning, and play. Founder of the Code Liberation Foundation and a co-creator of InteractML, they lead Held in Common and the group's work on The Antigravity Machine.</p>
           <a class="site-link" href="https://phoenixperry.com" target="_blank" rel="noopener">phoenixperry.com</a>
         </article>
         <article class="card">
-          <span class="label" style="color: var(--mauve);">Group lead</span>
+          <span class="label" style="color: var(--mauve);">Research lead</span>
           <h2>Dr Matthew Plummer-Fernández</h2>
           <p class="role">Course Leader, BA Fine Art: Computational Arts, Camberwell College of Arts</p>
           <p class="bio">A British/Colombian artist working across algorithmic systems, popular culture, and contemporary issues, in the traditions of generative art, critical design, and internet art. His works are held in the permanent collection of Centre Pompidou and received an Award of Distinction at Ars Electronica.</p>
           <a class="site-link" href="https://www.plummerfernandez.com" target="_blank" rel="noopener">plummerfernandez.com</a>
         </article>
+        <article class="card">
+          <span class="label" style="color: var(--mauve);">Research lead</span>
+          <h2>Prof Nick Bryan-Kinns</h2>
+          <p class="role">Professor of Creative Computing, UAL Creative Computing Institute</p>
+          <p class="bio">Nick researches how artists build, use, and trouble AI in their creative practice and how AI shapes and reframes their creative practice. His current research explores what he terms Praxis GenAI with Intangible Cultural Inheritors, Responsible AI and music, and Explainable AI for the Arts.</p>
+          <a class="site-link" href="https://nickbknickbk.github.io" target="_blank" rel="noopener">nickbknickbk.github.io</a>
+        </article>
+        <article class="card">
+          <span class="label" style="color: var(--mauve);">Research lead</span>
+          <h2>Prof Rebecca Fiebrink</h2>
+          <p class="role">Professor of Creative Computing, UAL Creative Computing Institute</p>
+          <p class="bio">Rebecca builds technologies for new forms of human expression, creativity, and embodied interaction, combining human-computer interaction with machine learning. She created Wekinator, the interactive machine learning tool for real-time gestural design, and co-created InteractML, RAPID-MIX, Sound Control, and MIMIC.</p>
+          <a class="site-link" href="https://researchers.arts.ac.uk/1594-rebecca-fiebrink" target="_blank" rel="noopener">UAL research profile</a>
+        </article>
       </div>
       <div class="join-band">
         <p>We are a growing group of UAL artists and researchers who build. Join us.</p>
-        <a class="button-outline label" href="mailto:phoenix@machinesweimagine.com?subject=Joining%20Machines%20We%20Imagine">Join us</a>
+        <button id="join-button" type="button" class="button-outline label">Join us</button>
       </div>
     </section>
 
@@ -194,20 +236,11 @@
       </article>
     </section>
 
-    <!-- ============ 07 past work ============ -->
-    <section id="past" class="section">
-      <div class="section-head">
-        <span class="label eyebrow">Past work</span>
-        <span class="label num">07</span>
-      </div>
-      <p class="past-story">The story of how this came about is that it grew out of and is the next evolution of the Critical Computing and Creative Practices Group. After a year of CCCPG, we found ourselves more organically drawn to building things and making art than reflecting on the field of computing as a whole. We really should have seen this coming&hellip;</p>
-    </section>
-
-    <!-- ============ 08 contact ============ -->
+    <!-- ============ 07 contact ============ -->
     <section id="contact" class="section" style="padding-bottom: clamp(60px, 12vh, 140px);">
       <div class="section-head">
         <span class="label eyebrow">Contact</span>
-        <span class="label num">08</span>
+        <span class="label num">07</span>
       </div>
       <div class="contact-row">
         <h2>If you are building a tool as part of your creative practice and want to get in touch, we want to hear from you.&nbsp;</h2>
@@ -220,8 +253,36 @@
 
   </main>
 
+  <!-- ============ join modal (hidden until the Join us button is clicked) ============
+       No backend needed: submitting opens the visitor's email app with a
+       pre-filled message to you. To use a form service instead (Formspree,
+       Mailchimp, etc.), see the note in modal.js. -->
+  <div id="join-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="join-title">
+    <div class="modal">
+      <div class="modal-top">
+        <span class="label" style="color: var(--mauve);">Mailing list</span>
+        <button id="join-close" type="button" class="modal-close label">Close</button>
+      </div>
+      <h2 id="join-title">Join Machines We Imagine</h2>
+      <p class="modal-note">Leave your name and email and we'll keep you posted on the group's work, events, and calls.</p>
+      <form id="join-form">
+        <label class="field">
+          <span class="label">Name</span>
+          <input type="text" name="name" required autocomplete="name">
+        </label>
+        <label class="field">
+          <span class="label">Email</span>
+          <input type="email" name="email" required autocomplete="email">
+        </label>
+        <button type="submit" class="button-solid label">Sign up</button>
+      </form>
+      <p id="join-done" class="modal-note" hidden>Thanks — your email app should have opened with the signup message ready to send.</p>
+    </div>
+  </div>
+
   <footer class="site-footer label">
     <span>Machines We Imagine</span>
+    <span>Grown out of the Critical Computing and Creative Practices Group</span>
     <span>University of the Arts London</span>
   </footer>
 
