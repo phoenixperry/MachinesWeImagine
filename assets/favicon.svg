@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- MWI logo, redrawn with heavier lines so it stays legible at tab size -->
+  <rect width="1024" height="1024" fill="#302C80"/>
+  <g fill="none" stroke="#EDDFD3" stroke-width="36" stroke-linejoin="miter">
+    <path d="M70 465 278 48 487 465Z M388 465 596 48 806 465Z M70 530 278 945 487 530Z M388 530 596 945 806 530Z"/>
+    <rect x="828" y="530" width="129" height="413"/>
+    <circle cx="891" cy="397" r="68"/>
+  </g>
+</svg>
