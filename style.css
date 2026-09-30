@@ -385,6 +385,8 @@ main { padding: 0 var(--gutter); }
 .contact-row h2 { font-size: clamp(26px, 3.4vw, 48px); line-height: 1.04; letter-spacing: -0.8px; max-width: 20ch; }
 .contact-row .body { display: flex; flex-direction: column; gap: 18px; align-items: start; }
 .contact-row .body p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--violet); }
+.contact-row .social-link { font-size: 13px; }
+.site-footer a { color: var(--violet); border-color: rgba(92, 84, 140, 0.4); }
 
 /* ---- join modal ---- */
 .modal-backdrop {
