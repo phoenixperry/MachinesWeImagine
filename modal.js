@@ -47,7 +47,7 @@ joinForm.addEventListener('submit', async (e) => {
   if (!SCRIPT_URL) {
     const subject = encodeURIComponent('Mailing list signup');
     const body = encodeURIComponent(`Please add me to the Machines We Imagine mailing list.\n\nName: ${name}\nEmail: ${email}`);
-    window.location.href = `mailto:phoenix@machinesweimagine.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:hello@machinesweimagine.com?subject=${subject}&body=${body}`;
     showDone('Thanks. Your email app should have opened with the signup message ready to send.');
     return;
   }
@@ -66,7 +66,7 @@ joinForm.addEventListener('submit', async (e) => {
     showSuccess();
     joinForm.reset();
   } catch (err) {
-    showDone('Something went wrong. Please email us instead at phoenix@machinesweimagine.com.');
+    showDone('Something went wrong. Please email us instead at hello@machinesweimagine.com.');
   }
   submitButton.disabled = false;
   submitButton.textContent = 'Sign up';

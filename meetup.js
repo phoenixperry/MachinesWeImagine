@@ -83,7 +83,7 @@ form.addEventListener('submit', async (e) => {
       + '. See you on 7 October.';
     doneEl.hidden = false;
   } catch (err) {
-    showError('Something went wrong — please try again, or email phoenix@machinesweimagine.com.');
+    showError('Something went wrong — please try again, or email hello@machinesweimagine.com.');
     button.disabled = false;
     button.textContent = 'Sign up';
   }
