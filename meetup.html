@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign up — Machines We Imagine First Meetup</title>
+<meta name="description" content="Sign up for the first Machines We Imagine meetup, Wednesday 7 October 2026, 3–5pm.">
+
+<!-- Same fonts, styles and background sketch as the main site -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<script src="sketch.js" defer></script>
+<script src="meetup.js" defer></script>
+</head>
+<body>
+
+<div id="bg"></div>
+
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html">
+      <img class="wordmark" src="assets/mwi-wordmark.png" alt="Machines We Imagine">
+    </a>
+    <span class="label" style="color: var(--violet);">First meetup / 01</span>
+  </header>
+
+  <main>
+    <section class="meetup">
+
+      <!-- Event details -->
+      <div class="meetup-info">
+        <span class="label" style="color: var(--violet);">Wednesday</span>
+        <h1>7 October 2026<br>3–5pm</h1>
+        <p class="meetup-place">Room PR_B501E, Block B<br>Peckham Road building</p>
+        <p class="meetup-note">Meet the group, hear about our work, and join the show and tell: six five-minute slots, open to anyone, slides optional.</p>
+      </div>
+
+      <!-- Sign-up form (sent to the Google Sheet by meetup.js) -->
+      <div class="card meetup-form-card">
+        <h2>Sign up</h2>
+        <form id="meetup-form" novalidate>
+          <label class="field">
+            <span class="label">Name</span>
+            <input type="text" name="name" required autocomplete="name">
+          </label>
+          <label class="field">
+            <span class="label">Email</span>
+            <input type="email" name="email" required autocomplete="email">
+          </label>
+          <label class="check" id="present">
+            <input type="checkbox" name="present">
+            <span id="present-text">I’d like a show and tell slot (five minutes, slides optional)</span>
+          </label>
+          <label class="field" id="topic-field" hidden>
+            <span class="label">What will you share?</span>
+            <textarea name="topic" rows="3"></textarea>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="mailingList">
+            <span>Add me to the Machines We Imagine mailing list</span>
+          </label>
+          <button type="submit" class="button-solid label">Sign up</button>
+          <p id="meetup-error" class="modal-note form-error" role="alert" hidden></p>
+        </form>
+        <p id="meetup-done" class="meetup-done" hidden></p>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer label">
+    <span>Machines We Imagine</span>
+    <span>University of the Arts London</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

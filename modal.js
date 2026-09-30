@@ -5,7 +5,7 @@
    your web app URL (ends in /exec) into SCRIPT_URL below. Until you
    do, submissions fall back to opening the visitor's email app. */
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKkXDOD59nz74W_Wv-IxOjEWfX9z6mhe1baDeBZd6LOaDpsBbhoBODEzHAIEErpiwa6A/exec'; // ← paste your Apps Script web app URL here
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqaC3j1_RpgJwSbaumkzMQ8hNSmUr2_PQGEdsG7vmoh3qkMwn_vt5c9SdQr14KrbKO/exec'; // ← paste your Apps Script web app URL here
 
 const joinModal = document.getElementById('join-modal');
 const joinForm = document.getElementById('join-form');
