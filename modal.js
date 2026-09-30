@@ -3,7 +3,10 @@
 
    SETUP: follow the steps at the top of apps-script.gs, then paste
    your web app URL (ends in /exec) into SCRIPT_URL below. Until you
-   do, submissions fall back to opening the visitor's email app. */
+   do, submissions fall back to opening the visitor's email app.
+
+   On a successful signup the panel turns indigo and pink logo forms
+   burst out and un/remake themselves, like the background sketch. */
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqaC3j1_RpgJwSbaumkzMQ8hNSmUr2_PQGEdsG7vmoh3qkMwn_vt5c9SdQr14KrbKO/exec'; // ← paste your Apps Script web app URL here
 
@@ -11,6 +14,9 @@ const joinModal = document.getElementById('join-modal');
 const joinForm = document.getElementById('join-form');
 const joinDone = document.getElementById('join-done');
 const submitButton = joinForm.querySelector('button[type="submit"]');
+const joinPanel = joinModal.querySelector('.modal');
+const joinThanks = document.getElementById('join-thanks');
+const burstCanvas = joinModal.querySelector('.modal-burst');
 
 function setModal(open) {
   joinModal.classList.toggle('open', open);
@@ -19,6 +25,10 @@ function setModal(open) {
     joinForm.hidden = false;
     joinDone.hidden = true;
     joinForm.querySelector('input').focus();
+  } else {
+    stopBurst();
+    joinPanel.classList.remove('success');
+    joinThanks.hidden = true;
   }
 }
 
@@ -53,7 +63,8 @@ joinForm.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ name, email }),
     });
-    showDone("Thanks, you're on the list.");
+    showSuccess();
+    joinForm.reset();
   } catch (err) {
     showDone('Something went wrong. Please email us instead at phoenix@machinesweimagine.com.');
   }
@@ -65,4 +76,141 @@ function showDone(message) {
   joinDone.textContent = message;
   joinForm.hidden = true;
   joinDone.hidden = false;
+}
+
+// Success: flood the panel indigo, show the thank-you, start the burst
+function showSuccess() {
+  joinForm.hidden = true;
+  joinDone.hidden = true;
+  joinThanks.hidden = false;
+  joinPanel.classList.add('success');
+  startBurst();
+}
+
+// ---- success burst -------------------------------------------
+// A small plain-canvas cousin of sketch.js: logo forms (triangles,
+// bar, circle) in pink fly out from the middle already broken apart,
+// remake themselves as they slow down, then keep drifting and
+// un/remaking for as long as the panel is open.
+const BURST_PINK = '242, 206, 209';
+let burstFrame = null;
+
+function burstPoints(kind, r) {
+  const pts = [];
+  if (kind === 'bar') {
+    const w = r * 0.34, h = r * 1.15;
+    pts.push([-w, -h], [w, -h], [w, h], [-w, h]);
+  } else if (kind === 'circle') {
+    for (let i = 0; i < 32; i++) {
+      const a = i * Math.PI * 2 / 32;
+      pts.push([Math.cos(a) * r * 0.82, Math.sin(a) * r * 0.82]);
+    }
+  } else {
+    const start = kind === 'triangle' ? -Math.PI / 2 : Math.PI / 2;
+    for (let i = 0; i < 3; i++) {
+      const a = start + i * Math.PI * 2 / 3;
+      pts.push([Math.cos(a) * r, Math.sin(a) * r]);
+    }
+  }
+  return pts;
+}
+
+function startBurst() {
+  stopBurst();
+  const ctx = burstCanvas.getContext('2d');
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = burstCanvas.clientWidth, h = burstCanvas.clientHeight;
+  burstCanvas.width = w * dpr;
+  burstCanvas.height = h * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const kinds = ['triangle', 'triangleDown', 'bar', 'circle', 'triangle', 'triangleDown'];
+  const unit = Math.min(w, h);
+
+  const forms = Array.from({ length: 11 }, () => {
+    const kind = kinds[Math.floor(Math.random() * kinds.length)];
+    const r = rand(unit * 0.07, unit * 0.2);
+    const heading = rand(0, Math.PI * 2);
+    const speed = still ? 0 : rand(2.5, 7);
+    return {
+      pts: burstPoints(kind, r), r,
+      x: still ? rand(0, w) : w / 2 + rand(-20, 20),
+      y: still ? rand(0, h) : h / 2 + rand(-20, 20),
+      vx: Math.cos(heading) * speed, vy: Math.sin(heading) * speed,
+      angle: rand(0, Math.PI * 2), spin: rand(-0.03, 0.03),
+      unmade: still ? 0 : 1, direction: -1,   // start scattered, remake on the way out
+      rate: rand(0.007, 0.013),
+      seed: rand(0, 1000),
+    };
+  });
+
+  let t = 0;
+  function frame() {
+    t++;
+    ctx.clearRect(0, 0, w, h);
+    for (const f of forms) {
+      // the burst: fast out of the centre, easing to a slow drift
+      f.vx *= 0.965; f.vy *= 0.965; f.spin *= 0.98;
+      if (Math.hypot(f.vx, f.vy) < 0.25) { f.vx += rand(-0.02, 0.02); f.vy += rand(-0.02, 0.02); }
+      f.x += f.vx; f.y += f.vy; f.angle += f.spin + 0.0015;
+
+      // wrap at the panel edges
+      const pad = f.r * 1.6;
+      if (f.x < -pad) f.x = w + pad;
+      if (f.x > w + pad) f.x = -pad;
+      if (f.y < -pad) f.y = h + pad;
+      if (f.y > h + pad) f.y = -pad;
+
+      // un/remaking cycle, slower once the burst settles
+      f.unmade += f.direction * f.rate;
+      if (f.unmade <= 0) { f.unmade = 0; f.direction = 1; f.rate = rand(0.002, 0.005); }
+      if (f.unmade >= 1) { f.unmade = 1; f.direction = -1; }
+
+      drawBurstForm(ctx, f, t);
+    }
+    if (!still) burstFrame = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// Same unmaking as sketch.js: edges shorten, push outward and wobble,
+// with loose dots at the corners once mostly apart.
+function drawBurstForm(ctx, f, t) {
+  const gap = f.unmade * 0.42;
+  const push = f.unmade * f.r * 0.55;
+  const jitter = f.unmade * f.r * 0.16;
+  ctx.save();
+  ctx.translate(f.x, f.y);
+  ctx.rotate(f.angle);
+  ctx.strokeStyle = `rgba(${BURST_PINK}, ${0.85 - f.unmade * 0.45})`;
+  ctx.lineWidth = 1.4;
+  ctx.beginPath();
+  const pts = f.pts, n = pts.length;
+  for (let i = 0; i < n; i++) {
+    const a = pts[i], b = pts[(i + 1) % n];
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+    const len = Math.hypot(mx, my) || 1;
+    const ox = (mx / len) * push, oy = (my / len) * push;
+    const jx = Math.sin(f.seed + i * 2.1 + t * 0.02) * jitter;
+    const jy = Math.cos(f.seed + i * 1.7 + t * 0.018) * jitter;
+    ctx.moveTo(a[0] + (b[0] - a[0]) * gap * 0.5 + ox + jx, a[1] + (b[1] - a[1]) * gap * 0.5 + oy + jy);
+    ctx.lineTo(b[0] - (b[0] - a[0]) * gap * 0.5 + ox + jx, b[1] - (b[1] - a[1]) * gap * 0.5 + oy + jy);
+  }
+  ctx.stroke();
+  if (f.unmade > 0.55) {
+    ctx.fillStyle = `rgba(${BURST_PINK}, ${(f.unmade - 0.55) * 1.6})`;
+    for (const p of pts) {
+      ctx.beginPath();
+      ctx.arc(p[0] * (1 + f.unmade * 0.5), p[1] * (1 + f.unmade * 0.5), 1.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  ctx.restore();
+}
+
+function stopBurst() {
+  if (burstFrame) cancelAnimationFrame(burstFrame);
+  burstFrame = null;
 }

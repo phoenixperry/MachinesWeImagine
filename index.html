@@ -302,6 +302,8 @@
        Mailchimp, etc.), see the note in modal.js. -->
   <div id="join-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="join-title">
     <div class="modal">
+      <!-- success state: pink logo forms drawn here by modal.js -->
+      <canvas class="modal-burst" aria-hidden="true"></canvas>
       <div class="modal-top">
         <span class="label" style="color: var(--mauve);">Mailing list</span>
         <button id="join-close" type="button" class="modal-close label">Close</button>
@@ -319,6 +321,7 @@
         </label>
         <button type="submit" class="button-solid label">Sign up</button>
       </form>
+      <p id="join-thanks" class="modal-thanks" role="status" hidden>Thanks, you&rsquo;re on the list.</p>
       <p id="join-done" class="modal-note" hidden>Thanks. Your email app should have opened with the signup message ready to send.</p>
     </div>
   </div>
