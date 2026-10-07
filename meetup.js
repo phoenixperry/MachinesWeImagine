@@ -14,7 +14,7 @@
 const MEETUP_ID = '2026-11-04';
 const MEETUP_DATE = '4 November';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqaC3j1_RpgJwSbaumkzMQ8hNSmUr2_PQGEdsG7vmoh3qkMwn_vt5c9SdQr14KrbKO/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7iZ0Pm7Fj7r4nG21KjCG-yX1Au_dctv4189Azmg9vI-wwLGdbLAHGD7ZdF0soQGd1/exec';
 
 const form = document.getElementById('meetup-form');
 const errorEl = document.getElementById('meetup-error');
