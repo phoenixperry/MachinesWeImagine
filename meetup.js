@@ -5,7 +5,14 @@
    Join us modal. The script writes a row to the "Meetup signups" tab,
    and also to "Signups" (the mailing list) when that box is ticked.
    Show and tell is capped at six: on load we ask the script how many
-   slots are left and grey out the box when there are none. */
+   slots are left and grey out the box when there are none.
+
+   NEXT MEETUP: change MEETUP_ID and MEETUP_DATE below, add the same id
+   to MEETUPS in apps-script.gs, and update the dates in meetup.html. */
+
+// Which meetup sign-ups go to (its id in MEETUPS in apps-script.gs)
+const MEETUP_ID = '2026-11-04';
+const MEETUP_DATE = '4 November';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqaC3j1_RpgJwSbaumkzMQ8hNSmUr2_PQGEdsG7vmoh3qkMwn_vt5c9SdQr14KrbKO/exec';
 
@@ -26,7 +33,7 @@ syncTopic();
 // Ask how many show and tell slots are left. If this fails, the box stays
 // usable — the script still caps it and records extras as "Waitlist".
 const presentText = document.getElementById('present-text');
-fetch(SCRIPT_URL + '?slots=1')
+fetch(SCRIPT_URL + '?slots=1&meetup=' + MEETUP_ID)
   .then((res) => res.json())
   .then(({ slotsLeft }) => {
     if (typeof slotsLeft !== 'number') return;
@@ -74,13 +81,13 @@ form.addEventListener('submit', async (e) => {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ type: 'meetup', name, email, mailingList, present, topic }),
+      body: JSON.stringify({ type: 'meetup', meetup: MEETUP_ID, name, email, mailingList, present, topic }),
     });
     form.hidden = true;
     doneEl.textContent = 'You’re signed up'
       + (present ? ' and down for a show and tell slot' : '')
       + (mailingList ? ', and on the mailing list' : '')
-      + '. See you on 7 October.';
+      + '. See you on ' + MEETUP_DATE + '.';
     doneEl.hidden = false;
   } catch (err) {
     showError('Something went wrong — please try again, or email hello@machinesweimagine.com.');

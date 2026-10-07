@@ -3,13 +3,18 @@
    ------------------------------------------------------------
    One script handles both forms on the website:
      • "Join us" modal (modal.js)   → row in the "Signups" tab
-     • Meetup page (meetup.js)      → row in "Meetup signups"
-       (incl. show and tell slot requests), and also in "Signups"
-       if they ticked the mailing-list box
-     • Show and tell is capped at SHOW_TELL_SLOTS. Requests after
-       that are recorded as "Waitlist". The meetup page asks
-       ?slots=1 for the number left and greys out the box at 0.
+     • Meetup page (meetup.js)      → row in that meetup's tab
+       (see MEETUPS below, incl. show and tell slot requests), and
+       also in "Signups" if they ticked the mailing-list box
+     • Show and tell is capped at SHOW_TELL_SLOTS per meetup.
+       Requests after that are recorded as "Waitlist". The meetup
+       page asks ?slots=1&meetup=<id> for the number left and greys
+       out the box at 0.
    Tabs and headers are created automatically on first use.
+
+   NEW MEETUP: add a line to MEETUPS, redeploy (step 3 below), and
+   set MEETUP_ID in meetup.js to the same id. Visiting
+   <exec URL>?slots=1&meetup=<id> creates the new tab straight away.
 
    SETUP / UPDATE:
    1. Open your Google Sheet → Extensions → Apps Script.
@@ -26,7 +31,13 @@
    ============================================================ */
 
 var MAILING_TAB = 'Signups';
-var MEETUP_TAB = 'Meetup signups';
+// One tab per meetup. The id is what meetup.js sends.
+// Sign-ups with no id (the old page) go to DEFAULT_MEETUP.
+var MEETUPS = {
+  '2026-10-07': { tab: 'Meetup signups',    label: 'Meetup 7 Oct 2026' },
+  '2026-11-04': { tab: 'Meetup 4 Nov 2026', label: 'Meetup 4 Nov 2026' }
+};
+var DEFAULT_MEETUP = '2026-10-07';
 var MEETUP_HEADERS = ['Timestamp', 'Name', 'Email', 'Mailing list', 'Show and tell', 'What they\'ll share'];
 var SHOW_TELL_SLOTS = 6;
 
@@ -42,6 +53,8 @@ function doPost(e) {
 
   var now = new Date();
   if (data.type === 'meetup') {
+    var meetup = meetup_(data.meetup);
+    if (!meetup) return json_({ ok: false, error: 'unknown meetup' });
     var wantsList = data.mailingList === true;
     var presenting = data.present === true;
     var showTell = 'No';
@@ -49,8 +62,8 @@ function doPost(e) {
     var lock = LockService.getScriptLock();
     lock.waitLock(10000);
     try {
-      if (presenting) showTell = slotsLeft_() > 0 ? 'Yes' : 'Waitlist';
-      tab_(MEETUP_TAB, MEETUP_HEADERS)
+      if (presenting) showTell = slotsLeft_(meetup.tab) > 0 ? 'Yes' : 'Waitlist';
+      tab_(meetup.tab, MEETUP_HEADERS)
         .appendRow([now, name, email, wantsList ? 'Yes' : 'No', showTell,
                     presenting ? String(data.topic || '').trim() : '']);
     } finally {
@@ -58,7 +71,7 @@ function doPost(e) {
     }
     if (wantsList) {
       tab_(MAILING_TAB, ['Timestamp', 'Name', 'Email', 'Source'])
-        .appendRow([now, name, email, 'Meetup 7 Oct 2026']);
+        .appendRow([now, name, email, meetup.label]);
     }
   } else {
     tab_(MAILING_TAB, ['Timestamp', 'Name', 'Email', 'Source'])
@@ -68,17 +81,26 @@ function doPost(e) {
 }
 
 // Visiting the URL in a browser shows this — confirms the deploy works.
-// The meetup page calls it with ?slots=1 to get the show and tell slots left.
+// The meetup page calls it with ?slots=1&meetup=<id> to get the show and
+// tell slots left for that meetup (this also creates the tab if it's new).
 function doGet(e) {
   if (e && e.parameter && e.parameter.slots) {
-    return json_({ slotsLeft: slotsLeft_() });
+    var meetup = meetup_(e.parameter.meetup);
+    if (!meetup) return json_({ ok: false, error: 'unknown meetup' });
+    return json_({ slotsLeft: slotsLeft_(meetup.tab) });
   }
   return ContentService.createTextOutput('MWI signup endpoint is live.');
 }
 
-// Show and tell slots still free: the cap minus the "Yes" rows.
-function slotsLeft_() {
-  var sh = tab_(MEETUP_TAB, MEETUP_HEADERS);
+// The MEETUPS entry for an id, the default when no id is sent,
+// or null for an id we don't know.
+function meetup_(id) {
+  return MEETUPS[id || DEFAULT_MEETUP] || null;
+}
+
+// Show and tell slots still free in a meetup tab: the cap minus the "Yes" rows.
+function slotsLeft_(tabName) {
+  var sh = tab_(tabName, MEETUP_HEADERS);
   var rows = sh.getLastRow() - 1;
   var taken = 0;
   if (rows > 0) {
