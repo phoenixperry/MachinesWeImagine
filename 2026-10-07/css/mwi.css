@@ -170,3 +170,31 @@ body.on-panel .deck-head .num { color: var(--pink); opacity: 0.7; }
 .reveal .progress { color: var(--ink); background: var(--line); }
 .reveal.has-dark-background .controls,
 .reveal.has-dark-background .progress { color: var(--pink); }
+
+/* Matthew's practice slides */
+.matt { display: flex; flex-direction: column; gap: 28px; }
+.matt-lead { font-size: 34px; max-width: 1250px; color: var(--ink); line-height: 1.3; }
+.matt-lead em { font-style: italic; }
+.media { display: grid; gap: 18px; align-items: start; }
+.media.one { grid-template-columns: 1fr; justify-items: center; }
+.media.two { grid-template-columns: 1fr 1fr; }
+.media.three { grid-template-columns: repeat(3, 1fr); }
+.media figure { margin: 0; }
+.media img, .media .clip { display: block; width: 100%; max-height: 560px; object-fit: contain; margin: 0 auto; background: #fff; }
+.media.one img, .media.one .clip { width: auto; max-width: 100%; height: 560px; }
+.media.two .clip { height: 500px; }
+.media figcaption { font-size: 18px; color: var(--violet); margin-top: 10px; }
+
+/* Research ecosystem hub (after Matthew's landscape slide) */
+.hub { position: relative; width: 1380px; height: 520px; margin-top: 36px; }
+.hub-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.hub-lines line { stroke: var(--ink); stroke-width: 2; }
+.hub-mark { position: absolute; width: 200px; height: 200px; margin: 0; }
+.hub .node { position: absolute; }
+.hub .node.center { text-align: center; }
+.hub .node h3 { font-size: 34px; margin: 0; }
+.hub .node p { font-size: 22px; color: var(--violet); margin: 4px 0 0; }
+.hub-foot { margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--ink); font-size: 22px; color: var(--violet); }
+
+/* A single photo filling the space under the running header */
+.photo-full { display: block; margin: 0 auto; max-width: 100%; height: 740px; object-fit: contain; }

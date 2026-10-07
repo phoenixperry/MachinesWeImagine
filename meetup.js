@@ -33,10 +33,13 @@ syncTopic();
 // Ask how many show and tell slots are left. If this fails, the box stays
 // usable — the script still caps it and records extras as "Waitlist".
 const presentText = document.getElementById('present-text');
-fetch(SCRIPT_URL + '?slots=1&meetup=' + MEETUP_ID)
-  .then((res) => res.json())
-  .then(({ slotsLeft }) => {
-    if (typeof slotsLeft !== 'number') return;
+// An older deployment of apps-script.gs ignores the meetup id and reports
+// the last meetup's count, so we also ask about an id that doesn't exist:
+// if that still gets a number, the count isn't for this meetup.
+const askSlots = (id) => fetch(SCRIPT_URL + '?slots=1&meetup=' + id).then((res) => res.json());
+Promise.all([askSlots(MEETUP_ID), askSlots('not-a-meetup').catch(() => ({}))])
+  .then(([{ slotsLeft }, probe]) => {
+    if (typeof slotsLeft !== 'number' || typeof probe.slotsLeft === 'number') return;
     if (slotsLeft > 0) {
       presentText.textContent = `I’d like a show and tell slot (five minutes, slides optional — ${slotsLeft} of 6 left)`;
       return;

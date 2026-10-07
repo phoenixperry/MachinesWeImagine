@@ -329,6 +329,21 @@
           <span class="label">Email</span>
           <input type="email" name="email" required autocomplete="email">
         </label>
+        <!-- Next-meetup mode only: same show and tell flow as meetup.html -->
+        <div id="join-meetup-extras" class="join-extras" hidden>
+          <label class="check">
+            <input type="checkbox" name="present">
+            <span id="join-present-text">I’d like a show and tell slot (five minutes, slides optional)</span>
+          </label>
+          <label class="field" id="join-topic-field" hidden>
+            <span class="label">What will you share?</span>
+            <textarea name="topic" rows="3"></textarea>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="mailingList">
+            <span>Add me to the Machines We Imagine mailing list</span>
+          </label>
+        </div>
         <button type="submit" class="button-solid label">Sign up</button>
       </form>
       <p id="join-thanks" class="modal-thanks" role="status" hidden>Thanks, you&rsquo;re on the list.</p>

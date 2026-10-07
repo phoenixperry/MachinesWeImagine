@@ -3,9 +3,11 @@
 
    Next-meetup mode: visiting the page at /#next-meetup (the QR code on
    the meetup slides) opens the same modal with the NEXT_MEETUP text
-   below, and sends the sign-up as a meetup sign-up for NEXT_MEETUP.id,
-   the same as meetup.html does (see MEETUPS in apps-script.gs). Update
-   NEXT_MEETUP when the date changes.
+   below and the same show and tell flow as meetup.html: a slot box
+   (greyed out when the six are taken), "What will you share?", and the
+   mailing-list box. It sends a meetup sign-up for NEXT_MEETUP.id, as
+   meetup.html does (see MEETUPS in apps-script.gs). Update NEXT_MEETUP
+   when the date changes.
 
    SETUP: follow the steps at the top of apps-script.gs, then paste
    your web app URL (ends in /exec) into SCRIPT_URL below. Until you
@@ -20,8 +22,8 @@ const NEXT_MEETUP = {
   id: '2026-11-04',  // must match an id in MEETUPS in apps-script.gs
   kicker: 'Next meetup',
   title: 'Machines We Imagine meetup',
-  note: 'Wednesday 4 November 2026, 3–5pm, PR_B501E. Leave your name and email to save your place.',
-  thanks: 'Thanks, you’re signed up. See you on 4 November.',
+  date: '4 November',
+  note: 'Wednesday 4 November 2026, 3–5pm, PR_B501E. Sign up to come along, and tick the box if you’d like a five-minute show and tell slot.',
 };
 
 const joinModal = document.getElementById('join-modal');
@@ -44,13 +46,47 @@ const modeText = {
 };
 let joinMode = 'join';
 
+const meetupExtras = document.getElementById('join-meetup-extras');
+const topicField = document.getElementById('join-topic-field');
+const presentText = document.getElementById('join-present-text');
+
+// "What will you share?" only shows once the show and tell box is ticked
+function syncTopic() { topicField.hidden = !joinForm.present.checked; }
+joinForm.present.addEventListener('change', syncTopic);
+
+// Show and tell slots left for the next meetup. An older deployment of
+// apps-script.gs ignores the meetup id and reports the last meetup's
+// count, so we also ask about an id that doesn't exist: if that still
+// gets a number, the count isn't for this meetup and we leave the box on.
+let slotsChecked = false;
+function checkSlots() {
+  if (slotsChecked || !SCRIPT_URL) return;
+  slotsChecked = true;
+  const ask = (id) => fetch(`${SCRIPT_URL}?slots=1&meetup=${id}`).then((res) => res.json());
+  Promise.all([ask(NEXT_MEETUP.id), ask('not-a-meetup').catch(() => ({}))])
+    .then(([{ slotsLeft }, probe]) => {
+      if (typeof slotsLeft !== 'number' || typeof probe.slotsLeft === 'number') return;
+      if (slotsLeft > 0) {
+        presentText.textContent = `I’d like a show and tell slot (five minutes, slides optional — ${slotsLeft} of 6 left)`;
+        return;
+      }
+      joinForm.present.checked = false;
+      joinForm.present.disabled = true;
+      presentText.textContent = 'All six show and tell slots are taken. You can still sign up to come along.';
+      syncTopic();
+    })
+    .catch(() => {});
+}
+
 function setMode(mode) {
   joinMode = mode;
   const text = modeText[mode];
   document.getElementById('join-kicker').textContent = text.kicker;
   document.getElementById('join-title').textContent = text.title;
   document.getElementById('join-note').textContent = text.note;
-  joinThanks.textContent = text.thanks;
+  joinThanks.textContent = text.thanks || '';
+  meetupExtras.hidden = mode !== 'next-meetup';
+  if (mode === 'next-meetup') { syncTopic(); checkSlots(); }
 }
 
 function setModal(open) {
@@ -109,11 +145,22 @@ joinForm.addEventListener('submit', async (e) => {
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(joinMode === 'next-meetup'
-        ? { type: 'meetup', meetup: NEXT_MEETUP.id, name, email, mailingList: false, present: false }
+        ? { type: 'meetup', meetup: NEXT_MEETUP.id, name, email,
+            mailingList: joinForm.mailingList.checked,
+            present: joinForm.present.checked,
+            topic: joinForm.present.checked ? joinForm.topic.value.trim() : '' }
         : { name, email }),
     });
+    if (joinMode === 'next-meetup') {
+      const present = joinForm.present.checked, list = joinForm.mailingList.checked;
+      joinThanks.textContent = 'Thanks, you’re signed up'
+        + (present ? ' and down for a show and tell slot' : '')
+        + (list ? ', and on the mailing list' : '')
+        + `. See you on ${NEXT_MEETUP.date}.`;
+    }
     showSuccess();
     joinForm.reset();
+    syncTopic();
   } catch (err) {
     showDone('Something went wrong. Please email us instead at hello@machinesweimagine.com.');
   }

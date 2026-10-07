@@ -524,3 +524,7 @@ main { padding: 0 var(--gutter); }
   align-items: center;
   color: var(--violet);
 }
+
+/* Show and tell options in the join modal (next-meetup mode) */
+.join-extras { display: flex; flex-direction: column; gap: 14px; }
+.join-extras[hidden] { display: none; }
