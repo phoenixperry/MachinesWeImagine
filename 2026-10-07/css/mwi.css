@@ -1,0 +1,158 @@
+/* ============================================================
+   Machines We Imagine: reveal.js theme
+   ------------------------------------------------------------
+   Same palette, fonts and details as machinesweimagine.com
+   (see ../machinesweimagine/style.css). Change a hex in :root
+   and it updates every slide.
+   ============================================================ */
+
+:root {
+  --pink:   #F2CED1;  /* background */
+  --ink:    #30348C;  /* main indigo: text, rules, panels */
+  --indigo: #44428C;  /* secondary body copy */
+  --violet: #5C548C;  /* quieter text */
+  --mauve:  #9885A6;  /* numbers, small labels */
+  --line:   rgba(48, 52, 140, 0.22);
+  --card-line: rgba(48, 52, 140, 0.35);
+  --card-bg: rgba(242, 206, 209, 0.72);
+
+  --r-background-color: var(--pink);
+  --r-main-color: var(--ink);
+  --r-main-font: 'DM Sans', system-ui, sans-serif;
+  --r-heading-font: 'Space Grotesk', sans-serif;
+}
+
+html, body, .reveal-viewport { background: var(--pink); }
+body { color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+/* p5 background sketch sits behind the slides */
+#bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.reveal { position: relative; z-index: 1; }
+/* slide backgrounds stay transparent so the sketch shows; panel slides
+   set data-background-color to indigo, which covers it */
+
+.reveal {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 28px;
+  color: var(--ink);
+}
+.reveal .slides { text-align: left; }
+.reveal .slides > section { height: 900px; padding: 120px 96px 90px; box-sizing: border-box; }
+
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  color: var(--ink);
+  text-transform: none;
+  margin: 0;
+}
+.reveal h1 { font-size: 150px; line-height: 0.95; letter-spacing: -4px; }
+.reveal h2 { font-size: 76px; line-height: 1.02; letter-spacing: -2px; margin-bottom: 48px; }
+.reveal h3 { font-size: 34px; line-height: 1.12; letter-spacing: -0.5px; }
+.reveal p { margin: 0; line-height: 1.5; text-wrap: pretty; }
+.reveal a { color: var(--ink); border-bottom: 1px solid rgba(48,52,140,0.4); }
+
+/* ---- running header: "MACHINES WE IMAGINE ..... FIRST MEETUP / 03" ---- */
+.deck-head {
+  position: fixed; top: 44px; left: 96px; right: 96px; z-index: 2;
+  display: flex; justify-content: space-between;
+  padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  pointer-events: none;
+}
+.label, .deck-head {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; letter-spacing: 0.18em; text-transform: uppercase;
+}
+.deck-head .num { color: var(--mauve); font-family: 'Space Grotesk', sans-serif; }
+body.on-panel .deck-head { color: var(--pink); border-color: rgba(242,206,209,0.3); }
+body.on-panel .deck-head .num { color: var(--pink); opacity: 0.7; }
+
+.muted  { color: var(--violet); }
+.mauve  { color: var(--mauve); }
+.lead   { font-size: 36px; line-height: 1.35; color: var(--indigo); max-width: 30ch; }
+
+/* ---- layouts ---- */
+.grid { display: grid; gap: 28px; }
+.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.split  { display: grid; grid-template-columns: 1.15fr 1fr; gap: 64px; align-items: start; }
+
+.card {
+  box-shadow: inset 0 0 0 1px var(--card-line);
+  background: var(--card-bg);
+  padding: 32px 34px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.card .roman, .card .n { font-family: 'Space Grotesk', sans-serif; font-size: 18px; letter-spacing: 0.14em; color: var(--mauve); }
+.card p { font-size: 24px; color: var(--indigo); }
+
+/* Solid indigo slide (section dividers, join us): pair with data-background-color="#30348C" */
+.reveal section.panel { color: var(--pink); }
+.reveal section.panel h1, .reveal section.panel h2, .reveal section.panel h3 { color: var(--pink); }
+.reveal section.panel .muted, .reveal section.panel .mauve { color: var(--pink); opacity: 0.7; }
+.reveal section.panel a { color: var(--pink); border-color: rgba(242,206,209,0.5); }
+
+/* Section divider: time eyebrow, big title, one line under */
+.divider { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+.divider .label { margin-bottom: 28px; }
+.divider h1 { font-size: 120px; }
+.divider p { margin-top: 36px; font-size: 32px; max-width: 34ch; }
+.divider p.label { margin-top: 0; font-size: 16px; max-width: none; }
+
+/* Title slide */
+.title .mark { position: absolute; right: 96px; bottom: 100px; width: 260px; }
+.title h1 { margin: 40px 0 36px; }
+
+/* Agenda */
+.agenda { list-style: none; margin: 0; padding: 0; }
+.agenda li {
+  display: grid; grid-template-columns: 240px 1fr; gap: 32px;
+  padding: 18px 0; border-top: 1px solid var(--line);
+}
+.agenda li:last-child { border-bottom: 1px solid var(--line); }
+.agenda .time { font-family: 'Space Grotesk', sans-serif; font-size: 26px; color: var(--violet); }
+.agenda h3 { font-size: 30px; }
+.agenda p { font-size: 22px; color: var(--violet); margin-top: 4px; }
+
+/* People */
+.people { grid-template-columns: repeat(3, 1fr); gap: 0; }
+.people > div { padding: 26px 28px 30px 0; border-top: 1px solid var(--line); }
+.people h3 { font-size: 30px; }
+.people p { font-size: 21px; color: var(--violet); margin-top: 8px; }
+
+/* Tag row */
+.tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+.tags span { box-shadow: inset 0 0 0 1px var(--card-line); padding: 8px 16px; font-size: 20px; }
+
+/* Figures */
+.figure img { display: block; width: 100%; margin: 0; }
+.figure figcaption { font-size: 17px; color: var(--violet); margin-top: 12px; line-height: 1.4; }
+.figure.diagram img { background: #fff; padding: 18px; box-sizing: border-box; box-shadow: inset 0 0 0 1px var(--card-line); }
+
+/* Ecosystem */
+.eco { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.eco .card { padding: 24px 26px; }
+.eco h3 { font-size: 28px; }
+.eco p { font-size: 20px; }
+.foot-note { margin-top: 32px; font-size: 24px; color: var(--violet); }
+
+/* Placeholder for slides still to be filled in */
+.todo {
+  box-shadow: inset 0 0 0 2px var(--card-line);
+  background-image: repeating-linear-gradient(-45deg, transparent 0 14px, rgba(48,52,140,0.06) 14px 15px);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  height: 520px; color: var(--violet); font-size: 26px;
+}
+.card p.label { font-size: 14px; color: var(--mauve); }
+
+/* Sign-up card with QR code (last slide). The QR links to the site's meetup page. */
+.card.signup { flex-direction: row; align-items: center; gap: 32px; }
+.card.signup .qr { width: 220px; height: 220px; flex: none; background: var(--pink); padding: 14px; box-sizing: content-box; }
+
+/* Photo grid (Resident Thrum at C&C '26) */
+.photos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.photos img { width: 100%; height: 460px; object-fit: cover; display: block; }
+
+/* Card still to be filled in */
+.card.todo-card { box-shadow: none; outline: 2px dashed var(--card-line); outline-offset: -2px; background: rgba(242,206,209,0.5); }
+.card h3 + p { margin-top: 2px; }

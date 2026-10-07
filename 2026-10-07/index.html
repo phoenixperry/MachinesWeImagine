@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machines We Imagine: First Meetup, 7 October 2026</title>
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+<link rel="stylesheet" href="css/mwi.css">
+</head>
+<body>
+
+<!-- p5 background sketch (same one as machinesweimagine.com) -->
+<div id="bg"></div>
+
+<!-- Running header. The right-hand text comes from each slide's data-label. -->
+<div class="deck-head"><span>Machines We Imagine</span><span class="num" id="head-num"></span></div>
+
+<div class="reveal"><div class="slides">
+
+<!-- ============================================================
+     Slide order follows the running numbers. To add a slide, copy
+     a <section> and give it a data-label (shown top right).
+     Speaker notes go in <aside class="notes"> (press S to see them).
+     ============================================================ -->
+
+<!-- 01 -->
+<section class="title" data-label="First meetup">
+  <p class="label muted">A UAL research group</p>
+  <h1>Machines<br>We Imagine</h1>
+  <p class="lead">Artist-researchers who imagine the machines they imagine-with.</p>
+  <p class="label mauve" style="margin-top:56px">7 October 2026</p>
+  <img class="mark" src="images/mwi-mark.svg" alt="Machines We Imagine logo">
+</section>
+
+<!-- 02 -->
+<section data-label="First meetup">
+  <h2>The afternoon</h2>
+  <ul class="agenda">
+    <li><span class="time">3–3.30pm</span><div><h3>Meet Phoenix + Matthew</h3><p>Introductions to our practices</p></div></li>
+    <li><span class="time">3.30–3.50pm</span><div><h3>Introducing Machines We Imagine</h3><p>The group, ways to get involved, and The Antigravity Machine</p></div></li>
+    <li><span class="time">3.50–4.10pm</span><div><h3>Break + informal conversation</h3><p>Questions, connections and time to chat</p></div></li>
+    <li><span class="time">4.10–4.45pm</span><div><h3>PGR research introductions</h3><p>Six slots, five minutes each, slides optional</p></div></li>
+    <li><span class="time">4.45–5pm</span><div><h3>Connections + next steps</h3><p>Continue conversations and arrange follow-up discussions</p></div></li>
+  </ul>
+</section>
+
+<!-- ============================ PHOENIX ============================ -->
+
+<!-- 03 -->
+<section class="panel" data-background-color="#30348C" data-label="First meetup">
+  <div class="divider">
+    <p class="label">3–3.30pm / Research introductions</p>
+    <h1>Meet Phoenix</h1>
+    <p>Dr Phoenix Perry</p>
+  </div>
+</section>
+
+<!-- 04 -->
+<section data-label="Phoenix Perry">
+  <div class="split">
+    <div>
+      <p class="label muted">Premiered at ACM C&amp;C '26, London, July 2026</p>
+      <h2 style="margin:20px 0 32px">Resident Thrum</h2>
+      <p class="lead" style="font-size:30px">An installation for group cardiac synchronisation through multimodal biofeedback.</p>
+      <p style="margin-top:28px;font-size:24px;color:var(--indigo)">Two to six people wear heart rate monitors and sit on a hexagonal grid of haptic tiles for a three-minute ritual. Their heartbeats drive vibration, sound and light, nudging the group towards synchrony.</p>
+    </div>
+    <figure class="figure">
+      <img src="images/thrum-cc26-hero.jpg" alt="The hexagonal grid of seven plywood tiles with the central acrylic tile glowing blue, on a black floor">
+      <figcaption>Resident Thrum at Creativity &amp; Cognition 2026.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 05 -->
+<section data-label="Phoenix Perry">
+  <h2 style="margin-bottom:28px">At C&amp;C '26</h2>
+  <div class="photos">
+    <img src="images/thrum-cc26-1.jpg" alt="Four participants lying around the hexagonal tile grid, the central tile glowing white">
+    <img src="images/thrum-cc26-2.jpg" alt="Participants seated in a circle around the glowing central tile during the ritual">
+    <img src="images/thrum-cc26-4.jpg" alt="Two participants lit in cool blue light, close together and contemplative">
+    <img src="images/thrum-cc26-5.jpg" alt="The convener talking a participant through the ritual, laptop running the system beside them">
+  </div>
+  <p class="muted" style="margin-top:18px;font-size:20px">Groups of strangers sat the three-minute ritual together. A convener fitted the monitors, guided each session and led a short reflection afterwards.</p>
+</section>
+
+<!-- 06 -->
+<section data-label="Phoenix Perry">
+  <h2 style="margin-bottom:28px">How it works</h2>
+  <div class="split" style="grid-template-columns: 1.7fr 1fr; gap:48px">
+    <figure class="figure diagram">
+      <img src="images/thrum-architecture.jpg" alt="System diagram: Polar heart rate monitors send data over Bluetooth to a Mac app that calculates group sync, which drives an ESP32 (haptic motors, LED strips) and Max/MSP (rhythm and harmonic pad)">
+    </figure>
+    <div class="grid" style="gap:22px">
+      <div><h3>Haptic</h3><p class="muted" style="font-size:22px">Each tile vibrates with its sitter's own heartbeat.</p></div>
+      <div><h3>Sonic</h3><p class="muted" style="font-size:22px">Rhythms cohere and harmonies warm as sync rises.</p></div>
+      <div><h3>Light</h3><p class="muted" style="font-size:22px">The central tile shifts from cool to warm tones.</p></div>
+      <div><h3>Sync score</h3><p class="muted" style="font-size:22px">The range between the highest and lowest heart rate. Zero range means 100% sync.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section data-label="Phoenix Perry">
+  <h2>From game to ritual</h2>
+  <div class="grid cols-2" style="gap:56px">
+    <div>
+      <p class="label mauve">2018, Somerset House play test</p>
+      <p style="margin-top:18px;font-size:27px;color:var(--indigo)">The first version was a game: follow vibration cues to find hidden goals, inspired by the bee waggle dance. Most players ignored the goals. They sat or lay on the grid and attended to the vibrations themselves.</p>
+      <p style="margin-top:22px;font-size:27px">The work now centres synchronisation as both means and end.</p>
+    </div>
+    <div class="grid" style="gap:16px">
+      <p class="label mauve">Research questions</p>
+      <div class="card"><span class="n">01</span><p>Does shared awareness of heart activity create a sense of a group body?</p></div>
+      <div class="card"><span class="n">02</span><p>Does reported affect track measured synchrony?</p></div>
+      <div class="card"><span class="n">03</span><p>Does making interoceptive signals conscious change how people understand social connection?</p></div>
+    </div>
+  </div>
+  <aside class="notes">Method: exhibition-led design cycle (Smith and Dean's Iterative Cyclic Web). Each showing collects anonymised heart rate data plus a facilitated reflection after each session.</aside>
+</section>
+
+<!-- 08 -->
+<section data-label="Phoenix Perry">
+  <p class="label muted">Early days</p>
+  <h2 style="margin-top:18px">What we're seeing so far</h2>
+  <div class="grid cols-2">
+    <div class="card"><span class="n">2018 / Somerset House</span><h3>People chose rest over the game.</h3><p>Most players ignored the goals and lay on the grid, describing the vibrations as meditative and connecting.</p></div>
+    <div class="card"><span class="n">2026 / C&amp;C '26</span><h3>The ritual held.</h3><p>Groups of strangers lay down, breathed together and watched the central tile warm as their heartbeats drew closer.</p></div>
+    <div class="card todo-card"><span class="n">Heart rate data</span><h3>Phoenix to add</h3><p>An early pattern from the C&amp;C '26 sync logs.</p></div>
+    <div class="card todo-card"><span class="n">Reflections</span><h3>Phoenix to add</h3><p>A theme from the post-session conversations.</p></div>
+  </div>
+  <aside class="notes">Sources: 2018 play test as described in the C&amp;C '26 paper; C&amp;C '26 observation from phoenixperry.com/art-games/thrum. The two dashed cards are placeholders: no analysed findings from the heart rate logs or reflections are written up yet.</aside>
+</section>
+
+<!-- 09 -->
+<section data-label="Phoenix Perry">
+  <div class="split" style="grid-template-columns:1.2fr 1fr">
+    <div>
+      <p class="label muted">AHRC Braid funded / heldincommon.org</p>
+      <h2 style="margin:20px 0 28px">Held in Common</h2>
+      <p class="lead" style="font-size:30px">A federated data commons and governance framework for creative communities.</p>
+      <p style="margin-top:26px;font-size:24px;color:var(--indigo)">Sharing creative work and keeping control of it should not be opposites. Practitioners curate, control and share the datasets that train their tools, under conditions they define. A UK and US research collaboration.</p>
+      <p style="margin-top:22px;font-size:21px" class="muted">First public output: the model landscape, a database of how open the "open" models really are.</p>
+    </div>
+    <div class="grid" style="gap:16px">
+      <div class="card"><span class="n">01</span><h3>Contribute</h3><p>Your work lives on a local node you own and run.</p></div>
+      <div class="card"><span class="n">02</span><h3>Federate</h3><p>Nodes share signals (patterns, summaries, agreements). Originals stay put.</p></div>
+      <div class="card"><span class="n">03</span><h3>Govern</h3><p>The community sets the terms together, and anyone can withdraw at any time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ MATTHEW ============================ -->
+<!-- Matt: replace the three .todo boxes below with your slides.
+     Layouts you can copy from above: .split (text + image),
+     .grid.cols-2 / .cols-3 with .card, .figure for images. -->
+
+<!-- 10 -->
+<section class="panel" data-background-color="#30348C" data-label="First meetup">
+  <div class="divider">
+    <p class="label">3–3.30pm / Research introductions</p>
+    <h1>Meet Matthew</h1>
+    <p>Dr Matthew Plummer-Fernández</p>
+  </div>
+</section>
+
+<!-- 11 -->
+<section data-label="Matthew Plummer-Fernández">
+  <h2>Matthew, slide 1</h2>
+  <div class="todo">Matthew to add: practice work</div>
+</section>
+
+<!-- 12 -->
+<section data-label="Matthew Plummer-Fernández">
+  <h2>Matthew, slide 2</h2>
+  <div class="todo">Matthew to add: practice work</div>
+</section>
+
+<!-- 13 -->
+<section data-label="Matthew Plummer-Fernández">
+  <h2>Matthew, slide 3</h2>
+  <div class="todo">Matthew to add: practice work</div>
+</section>
+
+<!-- ======================= ABOUT THE GROUP ======================= -->
+
+<!-- 14 -->
+<section class="panel" data-background-color="#30348C" data-label="First meetup">
+  <div class="divider">
+    <p class="label">3.30–3.50pm</p>
+    <h1>About<br>Machines We Imagine</h1>
+    <p>Our group, our remit and our current work</p>
+  </div>
+</section>
+
+<!-- 15 -->
+<section data-label="First meetup">
+  <h2>Who we are</h2>
+  <div class="grid people">
+    <div><h3>Dr Phoenix Perry</h3><p>Embodied interaction and small-data machine learning</p></div>
+    <div><h3>Dr Matthew Plummer-Fernández</h3><p>Computational arts, algorithms and critical design</p></div>
+    <div><h3>Prof Nick Bryan-Kinns</h3><p>Creative practice, responsible AI and explainable AI</p></div>
+    <div><h3>Prof Rebecca Fiebrink</h3><p>Interactive machine learning and tools for expression</p></div>
+    <div><h3>Prof Mick Grierson</h3><p>Creative AI, deep learning and creative computing</p></div>
+    <div><h3>Prof Sarah Fdili Alaoui</h3><p>HCI, dance and interactive performance</p></div>
+  </div>
+</section>
+
+<!-- 16 -->
+<section data-label="First meetup">
+  <h2>Our remit</h2>
+  <div class="grid cols-3">
+    <div class="card"><span class="n">01</span><h3>Artist-made software deserves research support.</h3></div>
+    <div class="card"><span class="n">02</span><h3>Artists build tools as part of their practice.</h3></div>
+    <div class="card"><span class="n">03</span><h3>Creative practice tool-building is a research method.</h3></div>
+  </div>
+  <p class="label muted" style="margin-top:56px">What counts as a machine?</p>
+  <div class="tags">
+    <span>Model architectures</span><span>Interfaces</span><span>Datasets</span><span>Controllers</span>
+    <span>Software</span><span>Circuit boards</span><span>Governance frameworks</span>
+  </div>
+</section>
+
+<!-- 17 -->
+<section data-label="First meetup">
+  <h2>What we want to do</h2>
+  <div class="grid cols-3">
+    <div class="card"><span class="roman">i</span><h3>Tool development</h3><p>Prototypes, open-source tools and usable documentation</p></div>
+    <div class="card"><span class="roman">ii</span><h3>Grant mentoring</h3><p>Helping early-career researchers find routes to funding</p></div>
+    <div class="card"><span class="roman">iii</span><h3>Practice-led research and publication</h3><p>Knowledge from making, testing and using tools</p></div>
+  </div>
+  <p class="lead" style="margin-top:56px;max-width:none">A research home, technical infrastructure and routes to funding for artist-led computational work.</p>
+</section>
+
+<!-- 18 -->
+<section data-label="First meetup">
+  <p class="label muted">Funded research / In early development</p>
+  <h2 style="margin:18px 0 12px">The Antigravity Machine</h2>
+  <p class="lead" style="max-width:none;font-size:30px">Escaping Convergence Through Scaffolding Artistic Plurality in AI</p>
+  <div class="grid cols-3" style="margin-top:44px">
+    <div class="card"><h3>Real-time, code-free interface</h3></div>
+    <div class="card"><h3>Train models through gesture and movement</h3></div>
+    <div class="card"><h3>Make latent space legible and steerable</h3></div>
+  </div>
+  <div class="grid cols-3" style="margin-top:36px;font-size:22px;color:var(--violet)">
+    <div><p class="label mauve">Funders</p><p style="margin-top:8px">AHRC (UKRI) + SSHRC (Canada)</p></div>
+    <div><p class="label mauve">Leads</p><p style="margin-top:8px">Phoenix Perry, project lead<br>Matthew Plummer-Fernández, UK co-lead</p></div>
+    <div><p class="label mauve">Planned postdoc</p><p style="margin-top:8px">0.5 FTE for 10 months</p></div>
+  </div>
+  <p style="margin-top:28px;font-size:20px" class="muted">UK: UAL + Dundee &nbsp;·&nbsp; Canada: Simon Fraser + York &nbsp;·&nbsp; US partner: ComfyUI</p>
+</section>
+
+<!-- 19 -->
+<section data-label="First meetup">
+  <h2>Research ecosystem</h2>
+  <div class="grid eco">
+    <div class="card"><h3>Artistic practice</h3><p>Tools developed through making</p></div>
+    <div class="card"><h3>Research</h3><p>Questions tested through practice</p></div>
+    <div class="card"><h3>PGR / ECR development</h3><p>Mentoring toward grants</p></div>
+    <div class="card"><h3>Technical prototyping</h3><p>Seed funding for prototypes</p></div>
+    <div class="card"><h3>Funding</h3><p>Routes to larger grants</p></div>
+    <div class="card"><h3>Public engagement</h3><p>and knowledge exchange</p></div>
+  </div>
+  <p class="foot-note"><span class="label mauve">Publication</span>&nbsp;&nbsp; HCI / digital humanities / creative AI. Open-source tools and documentation that independent practitioners can adopt.</p>
+</section>
+
+<!-- ========================= REST OF THE DAY ========================= -->
+
+<!-- 20 -->
+<section class="panel" data-background-color="#30348C" data-label="First meetup">
+  <div class="divider">
+    <p class="label">3.50–4.10pm</p>
+    <h1>Break +<br>informal conversation</h1>
+    <p>Questions, connections and time to chat</p>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="panel" data-background-color="#30348C" data-label="First meetup">
+  <div class="divider">
+    <p class="label">4.10–4.45pm</p>
+    <h1>PGR research<br>introductions</h1>
+    <p>Six slots, five minutes each. Slides optional.</p>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="panel" data-background-color="#30348C" data-label="First meetup">
+  <div class="divider">
+    <p class="label">4.45–5pm</p>
+    <h1>Connections +<br>next steps</h1>
+    <p>Continue conversations and arrange follow-up research discussions.</p>
+  </div>
+</section>
+
+<!-- 23 -->
+<section data-label="First meetup">
+  <p class="label muted">Join us</p>
+  <h1 style="font-size:104px;letter-spacing:-3px;margin:24px 0 40px">What are you building,<br>and what could it become?</h1>
+  <div class="grid cols-2" style="gap:56px">
+    <div>
+      <p style="font-size:26px;color:var(--indigo)">We are a growing UAL group, for staff and researchers who build tools as part of their creative practice.</p>
+      <p style="margin-top:22px;font-size:26px">machinesweimagine.com<br>hello@machinesweimagine.com</p>
+    </div>
+    <div class="card signup">
+      <img class="qr" src="images/signup-qr.svg" alt="QR code linking to machinesweimagine.com/meetup.html">
+      <div>
+        <p class="label mauve">Next meetups</p>
+        <h3 style="margin-top:10px">4 November + 2 December</h3>
+        <p style="margin-top:6px">3–5pm, PR_B501E</p>
+        <p style="margin-top:22px;font-size:20px">Scan to sign up for 4 November<br><span class="muted">machinesweimagine.com/meetup.html</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<script src="js/sketch.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1600, height: 900, margin: 0.02,
+    center: false, hash: true, controls: true, progress: true,
+    transition: 'fade', backgroundTransition: 'fade',
+    plugins: [ RevealNotes ]
+  });
+
+  // Running header: "<data-label> / <slide number>", inverted on indigo slides
+  function updateHead(e) {
+    const s = e.currentSlide;
+    const n = String(Reveal.getIndices(s).h + 1).padStart(2, '0');
+    document.getElementById('head-num').textContent = (s.dataset.label || '') + ' / ' + n;
+    document.body.classList.toggle('on-panel', s.classList.contains('panel'));
+  }
+  Reveal.on('ready', updateHead);
+  Reveal.on('slidechanged', updateHead);
+</script>
+</body>
+</html>

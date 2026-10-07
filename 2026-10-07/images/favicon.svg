@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 20 984 984">
+  <!-- MWI logo lines on a transparent background, heavier so they read at
+       tab size. Indigo on light browser tabs, site pink on dark ones. -->
+  <style>
+    g { stroke: #30348C; }
+    @media (prefers-color-scheme: dark) { g { stroke: #F2CED1; } }
+  </style>
+  <g fill="none" stroke-width="40">
+    <path d="M70 465 278 48 487 465Z M388 465 596 48 806 465Z M70 530 278 945 487 530Z M388 530 596 945 806 530Z"/>
+    <rect x="828" y="530" width="129" height="413"/>
+    <circle cx="891" cy="397" r="68"/>
+  </g>
+</svg>
