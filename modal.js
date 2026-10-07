@@ -1,6 +1,12 @@
 /* Join-us modal: opens on the section-01 "Join us" button and sends
    name + email to a Google Sheet via a Google Apps Script web app.
 
+   Next-meetup mode: visiting the page at /#next-meetup (the QR code on
+   the meetup slides) opens the same modal with the NEXT_MEETUP text
+   below, and sends the sign-up as a meetup sign-up for NEXT_MEETUP.id,
+   the same as meetup.html does (see MEETUPS in apps-script.gs). Update
+   NEXT_MEETUP when the date changes.
+
    SETUP: follow the steps at the top of apps-script.gs, then paste
    your web app URL (ends in /exec) into SCRIPT_URL below. Until you
    do, submissions fall back to opening the visitor's email app.
@@ -10,6 +16,14 @@
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqaC3j1_RpgJwSbaumkzMQ8hNSmUr2_PQGEdsG7vmoh3qkMwn_vt5c9SdQr14KrbKO/exec'; // ← paste your Apps Script web app URL here
 
+const NEXT_MEETUP = {
+  id: '2026-11-04',  // must match an id in MEETUPS in apps-script.gs
+  kicker: 'Next meetup',
+  title: 'Machines We Imagine meetup',
+  note: 'Wednesday 4 November 2026, 3–5pm, PR_B501E. Leave your name and email to save your place.',
+  thanks: 'Thanks, you’re signed up. See you on 4 November.',
+};
+
 const joinModal = document.getElementById('join-modal');
 const joinForm = document.getElementById('join-form');
 const joinDone = document.getElementById('join-done');
@@ -17,6 +31,27 @@ const submitButton = joinForm.querySelector('button[type="submit"]');
 const joinPanel = joinModal.querySelector('.modal');
 const joinThanks = document.getElementById('join-thanks');
 const burstCanvas = joinModal.querySelector('.modal-burst');
+
+// Text for each mode: the defaults come from the HTML.
+const modeText = {
+  join: {
+    kicker: document.getElementById('join-kicker').textContent,
+    title: document.getElementById('join-title').textContent,
+    note: document.getElementById('join-note').textContent,
+    thanks: joinThanks.textContent,
+  },
+  'next-meetup': NEXT_MEETUP,
+};
+let joinMode = 'join';
+
+function setMode(mode) {
+  joinMode = mode;
+  const text = modeText[mode];
+  document.getElementById('join-kicker').textContent = text.kicker;
+  document.getElementById('join-title').textContent = text.title;
+  document.getElementById('join-note').textContent = text.note;
+  joinThanks.textContent = text.thanks;
+}
 
 function setModal(open) {
   joinModal.classList.toggle('open', open);
@@ -29,14 +64,25 @@ function setModal(open) {
     stopBurst();
     joinPanel.classList.remove('success');
     joinThanks.hidden = true;
+    // drop #next-meetup from the address bar so a reload doesn't reopen it
+    if (location.hash === '#next-meetup') history.replaceState(null, '', location.pathname + location.search);
   }
 }
 
-document.getElementById('join-button').addEventListener('click', () => setModal(true));
+document.getElementById('join-button').addEventListener('click', () => { setMode('join'); setModal(true); });
+
+// /#next-meetup opens the modal in next-meetup mode, on load or when a link changes the hash
+function openFromHash() {
+  if (location.hash !== '#next-meetup') return;
+  setMode('next-meetup');
+  setModal(true);
+}
+window.addEventListener('hashchange', openFromHash);
+openFromHash();
 document.getElementById('join-close').addEventListener('click', () => setModal(false));
 // click on the dark backdrop (not the panel) also closes
 joinModal.addEventListener('click', (e) => { if (e.target === joinModal) setModal(false); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setModal(false); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && joinModal.classList.contains('open')) setModal(false); });
 
 joinForm.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -45,8 +91,9 @@ joinForm.addEventListener('submit', async (e) => {
 
   // Fallback while SCRIPT_URL is empty: pre-filled email instead
   if (!SCRIPT_URL) {
-    const subject = encodeURIComponent('Mailing list signup');
-    const body = encodeURIComponent(`Please add me to the Machines We Imagine mailing list.\n\nName: ${name}\nEmail: ${email}`);
+    const nextMeetup = joinMode === 'next-meetup';
+    const subject = encodeURIComponent(nextMeetup ? 'Next meetup signup' : 'Mailing list signup');
+    const body = encodeURIComponent(`${nextMeetup ? 'Please sign me up for the next Machines We Imagine meetup.' : 'Please add me to the Machines We Imagine mailing list.'}\n\nName: ${name}\nEmail: ${email}`);
     window.location.href = `mailto:hello@machinesweimagine.com?subject=${subject}&body=${body}`;
     showDone('Thanks. Your email app should have opened with the signup message ready to send.');
     return;
@@ -61,7 +108,9 @@ joinForm.addEventListener('submit', async (e) => {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ name, email }),
+      body: JSON.stringify(joinMode === 'next-meetup'
+        ? { type: 'meetup', meetup: NEXT_MEETUP.id, name, email, mailingList: false, present: false }
+        : { name, email }),
     });
     showSuccess();
     joinForm.reset();

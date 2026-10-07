@@ -306,19 +306,20 @@
   </main>
 
   <!-- ============ join modal (hidden until the Join us button is clicked) ============
-       No backend needed: submitting opens the visitor's email app with a
-       pre-filled message to you. To use a form service instead (Formspree,
-       Mailchimp, etc.), see the note in modal.js. -->
+       Sign-ups go to the Google Sheet via apps-script.gs (see modal.js).
+       Opening the page at /#next-meetup (the QR code on the meetup slides)
+       shows the same modal in next-meetup mode: its text and meetup id
+       come from NEXT_MEETUP in modal.js. -->
   <div id="join-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="join-title">
     <div class="modal">
       <!-- success state: pink logo forms drawn here by modal.js -->
       <canvas class="modal-burst" aria-hidden="true"></canvas>
       <div class="modal-top">
-        <span class="label" style="color: var(--mauve);">Mailing list</span>
+        <span id="join-kicker" class="label" style="color: var(--mauve);">Mailing list</span>
         <button id="join-close" type="button" class="modal-close label">Close</button>
       </div>
       <h2 id="join-title">Join Machines We Imagine</h2>
-      <p class="modal-note">Leave your name and email and we'll keep you posted on the group's work, events, and calls.</p>
+      <p id="join-note" class="modal-note">Leave your name and email and we'll keep you posted on the group's work, events, and calls.</p>
       <form id="join-form">
         <label class="field">
           <span class="label">Name</span>
