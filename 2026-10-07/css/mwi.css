@@ -185,15 +185,18 @@ body.on-panel .deck-head .num { color: var(--pink); opacity: 0.7; }
 .media.two .clip { height: 500px; }
 .media figcaption { font-size: 18px; color: var(--violet); margin-top: 10px; }
 
-/* Research ecosystem hub (after Matthew's landscape slide) */
-.hub { position: relative; width: 1380px; height: 520px; margin-top: 36px; }
-.hub-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.hub-lines line { stroke: var(--ink); stroke-width: 2; }
-.hub-mark { position: absolute; width: 200px; height: 200px; margin: 0; }
-.hub .node { position: absolute; }
-.hub .node.center { text-align: center; }
-.hub .node h3 { font-size: 34px; margin: 0; }
-.hub .node p { font-size: 22px; color: var(--violet); margin: 4px 0 0; }
+/* Research ecosystem as a Voronoi diagram (slide 30; built by voronoi.py).
+   Cell walls stop short of each corner, with a dot at the corner, like
+   the logo forms coming apart in the background sketch. */
+.voronoi { position: relative; width: 1380px; height: 540px; margin-top: 28px; }
+.vor { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.vor-mwi { fill: var(--ink); }
+.vor-edges line { stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.vor-dots circle { fill: var(--ink); }
+.vor-mark { position: absolute; width: 150px; height: 150px; transform: translate(-50%, -50%); margin: 0; }
+.cell-label { position: absolute; transform: translate(-50%, -50%); text-align: center; width: 360px; }
+.cell-label h3 { font-size: 28px; margin: 0; white-space: nowrap; }
+.cell-label p { font-size: 19px; color: var(--violet); margin: 4px auto 0; max-width: 340px; }
 .hub-foot { margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--ink); font-size: 22px; color: var(--violet); }
 
 /* A single photo filling the space under the running header */
